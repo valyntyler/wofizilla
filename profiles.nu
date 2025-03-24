@@ -1,6 +1,15 @@
 #!/usr/bin/env nu
 
-let path = "~/.mozilla/firefox/profiles.ini" | path expand
+def profilesPath [
+  type?: string = firefox
+] {
+  match $type {
+    firefox => { "~/.mozilla/firefox/profiles.ini" | path expand }
+    thunderbird => { "~/.thunderbird/profiles.ini" | path expand }
+  }
+}
+
+let path = profilesPath thunderbird
 
 if ($path | path exists) {
   open $path
