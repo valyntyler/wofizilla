@@ -4,12 +4,13 @@ def profilesPath [
   type?: string = firefox
 ] {
   match $type {
+    zen => { "~/.zen/profiles.ini" | path expand }
     firefox => { "~/.mozilla/firefox/profiles.ini" | path expand }
     thunderbird => { "~/.thunderbird/profiles.ini" | path expand }
   }
 }
 
-let path = profilesPath thunderbird
+let path = profilesPath zen
 
 if ($path | path exists) {
   open $path
