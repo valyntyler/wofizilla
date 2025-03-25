@@ -10,12 +10,16 @@ def profilesPath [
   }
 }
 
-let path = profilesPath zen
+let path = profilesPath firefox
 
 if ($path | path exists) {
-  open $path
+  let choice = open $path
   | transpose title record
   | where title =~ '^Profile[0-9]+$'
+  | each {|profile| $profile.record.Name }
+  | to text
+  | wofi --show dmenu
+  firefox -p $choice
 } else {
   print "Profile config not found."
   exit 1
