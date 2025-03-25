@@ -10,17 +10,22 @@ def profilesPath [
   }
 }
 
-let path = profilesPath firefox
 
-if ($path | path exists) {
-  let choice = open $path
-  | transpose title record
-  | where title =~ '^Profile[0-9]+$'
-  | each {|profile| $profile.record.Name }
-  | to text
-  | wofi --show dmenu
-  firefox -p $choice
-} else {
-  print "Profile config not found."
-  exit 1
+def main [
+  app?: string = firefox,
+] {
+  let path = profilesPath $app
+
+  if ($path | path exists) {
+    let choice = open $path
+    | transpose title record
+    | where title =~ '^Profile[0-9]+$'
+    | each {|profile| $profile.record.Name }
+    | to text
+    | wofi --show dmenu
+    nu -c $'($app) -p "($choice)"'
+  } else {
+    print "Profile config not found."
+    exit 1
+  }
 }
