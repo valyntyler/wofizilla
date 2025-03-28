@@ -7,15 +7,26 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { nixpkgs, flake-utils, ... }:
+  outputs = { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system}; in {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
+            self.packages.${system}.wozilla
             wofi
             nushell
             nushellPlugins.formats
           ];
+        };
+
+        packages.wozilla = pkgs.stdenv.mkDerivation {
+          name = "wozilla";
+          src = ./src/wofi;
+          installPhase = ''
+            mkdir -p $out/bin
+            cp ./wozilla.nu $out/bin/wozilla
+            chmod +x $out/bin/wozilla
+          '';
         };
       }
     );
