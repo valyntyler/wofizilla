@@ -22,6 +22,11 @@
         packages.wozilla = pkgs.stdenv.mkDerivation {
           name = "wozilla";
           src = ./src/wofi;
+          buildInputs = with pkgs; [
+            wofi
+            nushell
+            nushellPlugins.formats
+          ];
           installPhase = ''
             mkdir -p $out/bin
             cp ./wozilla.nu $out/bin/wozilla
