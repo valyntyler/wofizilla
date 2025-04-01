@@ -12,16 +12,16 @@
       let pkgs = nixpkgs.legacyPackages.${system}; in {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            self.packages.${system}.wozilla
+            self.packages.${system}.wofizilla
             wofi
             nushell
             nushellPlugins.formats
           ];
         };
 
-        packages.wozilla = pkgs.stdenv.mkDerivation {
-          name = "wozilla";
-          src = ./src/wofi;
+        packages.wofizilla = pkgs.stdenv.mkDerivation rec {
+          name = "wofizilla";
+          src = ./src;
           buildInputs = with pkgs; [
             wofi
             nushell
@@ -29,8 +29,8 @@
           ];
           installPhase = ''
             mkdir -p $out/bin
-            cp ./wozilla.nu $out/bin/wozilla
-            chmod +x $out/bin/wozilla
+            cp ./wofizilla.nu $out/bin/${name}
+            chmod +x $out/bin/${name}
           '';
         };
       }
