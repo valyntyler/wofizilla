@@ -10,9 +10,10 @@ def profilesPath [
   }
 }
 
+def apps [] { [ zen firefox thunderbird ] }
 
 def main [
-  app?: string = firefox,
+  app?: string@apps = firefox,
 ] {
   let path = profilesPath $app
 
