@@ -1,4 +1,4 @@
 repository:
-  name: repo-name
-  description: description of repo
-  topics: github, probot
+  name: wofizilla
+  description: Wofi based profile picker for Firefox, Thunderbird and Zen Browser.
+  topics: wofi, launcher, profiles, firefox, thunderbird, zen-browser
