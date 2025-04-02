@@ -19,6 +19,7 @@
           ];
         };
 
+        packages.default = self.packages.${system}.wofizilla;
         packages.wofizilla = pkgs.stdenv.mkDerivation rec {
           name = "wofizilla";
           src = ./src;
