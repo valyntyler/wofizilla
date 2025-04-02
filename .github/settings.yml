@@ -1,0 +1,4 @@
+repository:
+  name: repo-name
+  description: description of repo
+  topics: github, probot
