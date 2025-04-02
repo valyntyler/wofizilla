@@ -24,6 +24,7 @@
           name = "wofizilla";
           src = ./src;
           buildInputs = with pkgs; [
+            makeWrapper
             wofi
             nushell
             nushellPlugins.formats
@@ -32,6 +33,12 @@
             mkdir -p $out/bin
             cp ./wofizilla.nu $out/bin/${name}
             chmod +x $out/bin/${name}
+            wrapProgram $out/bin/${name} \
+              --prefix PATH : ${pkgs.lib.makeBinPath [
+                pkgs.wofi
+                pkgs.nushell
+                pkgs.nushellPlugins.formats
+              ]}
           '';
         };
       }
