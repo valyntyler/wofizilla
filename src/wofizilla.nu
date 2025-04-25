@@ -13,9 +13,14 @@ def profilesPath [
 def apps [] { [ zen firefox thunderbird ] }
 
 def main [
-  app?: string@apps = firefox,
+  cmd?: string@apps
 ] {
-  let path = profilesPath $app
+  mut cmd = $cmd
+  if $cmd == null {
+    $cmd = apps | input list
+  }
+
+  let path = profilesPath $cmd
 
   if ($path | path exists) {
     let choice = open $path
@@ -24,7 +29,7 @@ def main [
     | each {|profile| $profile.record.Name }
     | to text
     | wofi --show dmenu
-    nu -c $'($app) -p "($choice)"'
+    nu -c $'($cmd) -p "($choice)"'
   } else {
     print "Profile config not found."
     exit 1
