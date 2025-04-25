@@ -7,6 +7,13 @@ def profilesPath [
     zen => "~/.zen/profiles.ini"
     firefox => "~/.mozilla/firefox/profiles.ini"
     thunderbird => "~/.thunderbird/profiles.ini"
+    _ => (error make {
+      msg: "Config path not specified."
+      label: {
+        text: $"couldn't find a config path for ($type)"
+        span: (metadata $type).span
+      }
+    })
   } | path expand
 }
 
@@ -14,13 +21,18 @@ def apps [] { [ zen firefox thunderbird ] }
 
 def main [
   cmd?: string@apps
+  --config-path: string
 ] {
   mut cmd = $cmd
   if $cmd == null {
     $cmd = apps | input list
   }
 
-  let path = profilesPath $cmd
+  let path = if $config_path != null {
+    $config_path
+  } else {
+    default (profilesPath $cmd)
+  }
 
   if ($path | path exists) {
     let choice = open $path
@@ -35,7 +47,7 @@ def main [
       msg: $"Couldn't find ($cmd | str title-case) profile"
       label: {
         text: $"no config found at ($path)"
-        span: (metadata $cmd).span
+        span: (metadata $config_path).span
       }
     }
   }
