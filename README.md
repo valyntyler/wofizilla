@@ -15,5 +15,11 @@ Then, enable the package by adding `wofizilla.packages.x86_64-linux.wozilla` to 
 wofizilla <command>: [ zen | firefox | thunderbird]
 ```
 
+## Examples
+Usage with other programs is possible by specifying the `--config-path` flag:
+```bash
+wofizilla floorp --config-path ~/.floorp/profiles.ini
+```
+
 ## Preview
 ![preview](assets/example.png)
