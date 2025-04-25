@@ -4,10 +4,10 @@ def profilesPath [
   type?: string = firefox
 ] {
   match $type {
-    zen => { "~/.zen/profiles.ini" | path expand }
-    firefox => { "~/.mozilla/firefox/profiles.ini" | path expand }
-    thunderbird => { "~/.thunderbird/profiles.ini" | path expand }
-  }
+    zen => "~/.zen/profiles.ini"
+    firefox => "~/.mozilla/firefox/profiles.ini"
+    thunderbird => "~/.thunderbird/profiles.ini"
+  } | path expand
 }
 
 def apps [] { [ zen firefox thunderbird ] }
