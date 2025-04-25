@@ -31,7 +31,12 @@ def main [
     | wofi --show dmenu
     nu -c $'($cmd) -p "($choice)"'
   } else {
-    print "Profile config not found."
-    exit 1
+    error make {
+      msg: $"Couldn't find ($cmd | str title-case) profile"
+      label: {
+        text: $"no config found at ($path)"
+        span: (metadata $cmd).span
+      }
+    }
   }
 }
