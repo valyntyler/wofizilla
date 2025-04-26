@@ -25,7 +25,9 @@ def main [
 ] {
   mut cmd = $cmd
   if $cmd == null {
-    $cmd = apps | input list
+    $cmd = apps
+    | to text
+    | wofi --show dmenu
   }
 
   let path = if $config_path != null {
