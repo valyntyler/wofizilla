@@ -27,7 +27,7 @@ def main [
   if $cmd == null {
     $cmd = apps
     | to text
-    | wofi --show dmenu
+    | wofi --show dmenu --prompt "Run app"
   }
 
   let path = if $config_path != null {
@@ -42,7 +42,7 @@ def main [
     | where title =~ '^Profile[0-9]+$'
     | each {|profile| $profile.record.Name }
     | to text
-    | wofi --show dmenu
+    | wofi --show dmenu --prompt "Choose profile..."
     nu -c $'($cmd) -p "($choice)"'
   } else {
     error make {
