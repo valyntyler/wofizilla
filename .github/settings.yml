@@ -1,4 +1,4 @@
 repository:
   name: wofizilla
   description: Wofi based profile picker for Firefox, Thunderbird and Zen Browser.
-  topics: wofi, launcher, profiles, firefox, thunderbird, zen-browser
+  topics: wofi launcher profiles firefox thunderbird zen-browser
