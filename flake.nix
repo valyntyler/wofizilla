@@ -1,25 +1,24 @@
 {
   description = "An empty nix devshell";
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system}; in {
+  outputs = inputs @ {flake-parts, ...}:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin"];
+      perSystem = {pkgs, ...}: rec {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            self.packages.${system}.wofizilla
+            packages.wofizilla
             wofi
             nushell
             nushellPlugins.formats
           ];
         };
 
-        packages.default = self.packages.${system}.wofizilla;
+        packages.default = packages.wofizilla;
         packages.wofizilla = pkgs.stdenv.mkDerivation rec {
           name = "wofizilla";
           src = ./src;
@@ -35,12 +34,12 @@
             chmod +x $out/bin/${name}
             wrapProgram $out/bin/${name} \
               --prefix PATH : ${pkgs.lib.makeBinPath [
-                pkgs.wofi
-                pkgs.nushell
-                pkgs.nushellPlugins.formats
-              ]}
+              pkgs.wofi
+              pkgs.nushell
+              pkgs.nushellPlugins.formats
+            ]}
           '';
         };
-      }
-    );
+      };
+    };
 }
