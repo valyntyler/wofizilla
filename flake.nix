@@ -33,6 +33,7 @@
               cp ./wofizilla.nu $out/bin/${name}
               chmod +x $out/bin/${name}
             '';
+            meta.mainProgram = "wofizilla";
           };
         in
           wrappers.lib.wrapPackage {
