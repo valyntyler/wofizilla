@@ -7,6 +7,12 @@ Browser.
 
 ## Installation
 
+### Generic Linux
+
+It's just a (nu)shell script - make sure you have
+[Nushell](https://www.nushell.sh/) installed, then place it wherever your other
+scripts go.
+
 ### Nix
 
 Add the following to your `flake.nix`.
