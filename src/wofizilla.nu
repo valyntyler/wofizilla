@@ -5,7 +5,7 @@ def profilesPath [
 ] {
   match $type {
     zen => "~/.zen/profiles.ini"
-    firefox => "~/.mozilla/firefox/profiles.ini"
+    firefox => "~/.config/mozilla/firefox/profiles.ini" # TODO: don't have this hard-coded
     thunderbird => "~/.thunderbird/profiles.ini"
     _ => (error make {
       msg: "Config path not specified."
